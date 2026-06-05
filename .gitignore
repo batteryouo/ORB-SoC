@@ -1,27 +1,50 @@
-# Vivado generated
-.cache/
-.hw/
-.ip_user_files/
-.sim/
-.runs/
+# ==========================================
+# Xilinx Vivado General Ignore List
+# ==========================================
 
+# Vivado generated directories (Logs, reports, caches, etc.)
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.xpe/
+.Xil/
+
+# Vivado generated log and journal files
 *.jou
 *.log
 *.str
+*.pb
+*.wdb
+*.vcd
 
-# Bitstream
+# Bitstreams and Binaries (Ignore general ones, unless specifically versioned)
 *.bit
 *.bin
+*.svf
 
-# Reports
-*.rpt
+# Checkpoint files
+*.dcp
 
-# Waveform
-*.wdb
-
-# Backup
 *~
 *.bak
+
+# ==========================================
+# Project Specific (Keep track of BD & IP repo)
+# ==========================================
+# Ignore the auto-generated HDL wrapper if you prefer regenerating it, 
+# but usually it's fine to track it. 
+# We explicitly ignore the 'bd' auto-generated temporary folders if any, 
+# but KEEP the .bd file itself.
+
+# Ignore Vitis / Software workspace temp files (if you use it later)
+.metadata/
+RemoteSystemsTempFiles/
+*.elf
+
+.DS_Store
+Thumbs.db
 
 .vscode/
 __pycache__/

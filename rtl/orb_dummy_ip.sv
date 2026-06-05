@@ -3,7 +3,7 @@
 
 module orb_dummy_ip (
     input  logic        clk,
-    input  logic        rst_n,
+    input  logic        resetn,
 
     // AXI-Lite Slave (Simplified for testing: just a start trigger)
     input  logic        axi_lite_start,
@@ -43,8 +43,8 @@ module orb_dummy_ip (
     // =========================================================================
     // FSM Sequential Logic
     // =========================================================================
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+    always_ff @(posedge clk or negedge resetn) begin
+        if (!resetn) begin
             current_state     <= IDLE;
             result_word_count <= 16'd0;
         end else begin

@@ -1,0 +1,40 @@
+{
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.19  2019-03-26 bk=1.5019 VDI=41 GEI=35 GUI=JA:9.0 non-TLS-threadsafe
+#  -string -flagsOSRD
+preplace port DDR -pg 1 -lvl 5 -x 1870 -y 410 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 5 -x 1870 -y 540 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 4 -x 860 -y 480 -defaultsOSRD
+preplace inst axi_dma_0 -pg 1 -lvl 3 -x 360 -y 490 -defaultsOSRD
+preplace inst orb_dummy_ip_0 -pg 1 -lvl 2 -x -20 -y 510 -defaultsOSRD
+preplace inst axi_smc -pg 1 -lvl 3 -x 360 -y 260 -defaultsOSRD
+preplace inst rst_ps7_0_100M -pg 1 -lvl 4 -x 860 -y 240 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 4 -x 860 -y 760 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 3 -x 360 -y 720 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 1 -x -260 -y 540 -defaultsOSRD
+preplace netloc processing_system7_0_FCLK_CLK0 1 1 4 -160 600 130 370 580 140 1110
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 3 2 590J 340 1090J
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 4 -170 620 140 620 560 620 1120J
+preplace netloc axi_dma_0_mm2s_introut 1 2 2 170 800 550
+preplace netloc axi_dma_0_s2mm_introut 1 2 2 160 630 530
+preplace netloc orb_dummy_ip_0_irq_done 1 2 1 120 520n
+preplace netloc xlconcat_0_dout 1 3 1 570 520n
+preplace netloc xlconstant_0_dout 1 1 1 N 540
+preplace netloc processing_system7_0_DDR 1 4 1 1130 400n
+preplace netloc processing_system7_0_FIXED_IO 1 4 1 1130 420n
+preplace netloc axi_dma_0_M_AXIS_MM2S 1 1 3 -180 610 N 610 540J
+preplace netloc orb_dummy_ip_0_m_axis_result 1 2 1 120 460n
+preplace netloc axi_dma_0_M_AXI_MM2S 1 2 2 150 350 540
+preplace netloc axi_smc_M00_AXI 1 3 1 570 260n
+preplace netloc processing_system7_0_M_AXI_GP0 1 3 2 590J 630 1100J
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 3 150 640 N 640 1090
+preplace netloc axi_dma_0_M_AXI_S2MM 1 2 2 160 360 530
+levelinfo -pg 1 -590 -260 -20 360 860 1870
+pagesize -pg 1 -db -bbox -sgen -590 0 1990 880
+"
+}
+{
+   "da_axi4_cnt":"3",
+   "da_clkrst_cnt":"1",
+   "da_ps7_cnt":"1"
+}
