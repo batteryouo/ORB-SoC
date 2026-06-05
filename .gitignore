@@ -1,0 +1,28 @@
+# Vivado generated
+.cache/
+.hw/
+.ip_user_files/
+.sim/
+.runs/
+
+*.jou
+*.log
+*.str
+
+# Bitstream
+*.bit
+*.bin
+
+# Reports
+*.rpt
+
+# Waveform
+*.wdb
+
+# Backup
+*~
+*.bak
+
+.vscode/
+__pycache__/
+*.pyc
