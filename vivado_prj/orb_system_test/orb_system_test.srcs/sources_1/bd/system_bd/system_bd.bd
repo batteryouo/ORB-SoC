@@ -899,6 +899,9 @@
           },
           "c_m_axis_mm2s_tdata_width": {
             "value": "8"
+          },
+          "c_sg_length_width": {
+            "value": "23"
           }
         }
       },
@@ -1174,12 +1177,6 @@
           "processing_system7_0/DDR"
         ]
       },
-      "processing_system7_0_FIXED_IO": {
-        "interface_ports": [
-          "FIXED_IO",
-          "processing_system7_0/FIXED_IO"
-        ]
-      },
       "processing_system7_0_M_AXI_GP0": {
         "interface_ports": [
           "processing_system7_0/M_AXI_GP0",
@@ -1190,6 +1187,12 @@
         "interface_ports": [
           "axi_dma_0/M_AXI_MM2S",
           "axi_smc/S00_AXI"
+        ]
+      },
+      "processing_system7_0_FIXED_IO": {
+        "interface_ports": [
+          "FIXED_IO",
+          "processing_system7_0/FIXED_IO"
         ]
       },
       "axi_smc_M00_AXI": {

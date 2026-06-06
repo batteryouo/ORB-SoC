@@ -3,8 +3,8 @@
 // Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
 // Date        : Sat Jun  6 01:50:20 2026
 // Host        : battery running 64-bit major release  (build 9200)
-// Command     : write_verilog -force -mode synth_stub
-//               e:/resources/Course/FPGA/ORB-SLAM3/vivado_prj/orb_system_test/orb_system_test.srcs/sources_1/bd/system_bd/ip/system_bd_auto_pc_0/system_bd_auto_pc_0_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top system_bd_auto_pc_0 -prefix
+//               system_bd_auto_pc_0_ system_bd_auto_pc_0_stub.v
 // Design      : system_bd_auto_pc_0
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7z020clg484-1
