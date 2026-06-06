@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-//Date        : Sun Jun  7 03:45:55 2026
+//Date        : Sun Jun  7 04:50:40 2026
 //Host        : battery running 64-bit major release  (build 9200)
 //Command     : generate_target system_bd.bd
 //Design      : system_bd
@@ -417,6 +417,7 @@ module system_bd
   wire axis_dwidth_converter_0_M_AXIS_TLAST;
   wire axis_dwidth_converter_0_M_AXIS_TREADY;
   wire axis_dwidth_converter_0_M_AXIS_TVALID;
+  wire [15:0]image_width_const_dout;
   wire orb_accelerator_top_0_irq_done;
   wire [31:0]orb_accelerator_top_0_m_axis_TDATA;
   wire orb_accelerator_top_0_m_axis_TLAST;
@@ -500,9 +501,8 @@ module system_bd
   wire ps7_0_axi_periph_M00_AXI_WREADY;
   wire ps7_0_axi_periph_M00_AXI_WVALID;
   wire [0:0]rst_ps7_0_100M_peripheral_aresetn;
+  wire [7:0]threshold_const_dout;
   wire [2:0]xlconcat_0_dout;
-  wire [15:0]xlconstant_0_dout;
-  wire [7:0]xlconstant_1_dout;
 
   system_bd_axi_dma_0_0 axi_dma_0
        (.axi_resetn(rst_ps7_0_100M_peripheral_aresetn),
@@ -648,10 +648,10 @@ module system_bd
         .s_axis_tready(axi_dma_0_M_AXIS_MM2S_TREADY),
         .s_axis_tvalid(axi_dma_0_M_AXIS_MM2S_TVALID));
   system_bd_xlconstant_0_1 image_width_const
-       (.dout(xlconstant_0_dout));
-  system_bd_orb_accelerator_top_0_0 orb_accelerator_top_0
+       (.dout(image_width_const_dout));
+  system_bd_orb_accelerator_top_0_1 orb_accelerator_top_0
        (.clk(processing_system7_0_FCLK_CLK0),
-        .image_width(xlconstant_0_dout),
+        .image_width(image_width_const_dout),
         .irq_done(orb_accelerator_top_0_irq_done),
         .m_axis_tdata(orb_accelerator_top_0_m_axis_TDATA),
         .m_axis_tlast(orb_accelerator_top_0_m_axis_TLAST),
@@ -662,7 +662,7 @@ module system_bd
         .s_axis_tlast(axis_dwidth_converter_0_M_AXIS_TLAST),
         .s_axis_tready(axis_dwidth_converter_0_M_AXIS_TREADY),
         .s_axis_tvalid(axis_dwidth_converter_0_M_AXIS_TVALID),
-        .threshold(xlconstant_1_dout));
+        .threshold(threshold_const_dout));
   system_bd_processing_system7_0_0 processing_system7_0
        (.DDR_Addr(DDR_addr[14:0]),
         .DDR_BankAddr(DDR_ba[2:0]),
@@ -836,7 +836,7 @@ module system_bd
         .peripheral_aresetn(rst_ps7_0_100M_peripheral_aresetn),
         .slowest_sync_clk(processing_system7_0_FCLK_CLK0));
   system_bd_xlconstant_1_0 threshold_const
-       (.dout(xlconstant_1_dout));
+       (.dout(threshold_const_dout));
   system_bd_xlconcat_0_0 xlconcat_0
        (.In0(axi_dma_0_mm2s_introut),
         .In1(axi_dma_0_s2mm_introut),

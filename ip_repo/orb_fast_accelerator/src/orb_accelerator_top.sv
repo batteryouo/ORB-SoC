@@ -1,15 +1,16 @@
 // orb_accelerator_top.sv
-// Top-level AXI-Stream Wrapper for FAST-9 IP
+// Top-level AXI-Stream Wrapper with Grid-based NMS
 
 module orb_accelerator_top (
   input  logic    clk,
   input  logic    resetn,
 
-  // Configuration (Can be connected to AXI-Lite later)
   input  logic [15:0] image_width,
   input  logic [7:0]  threshold,
 
-  // AXI-Stream Slave (Image In from DMA)
+  // AXI-Stream Slave (Image In from DMA via Data Width Converter)
+  // NOTE: This must receive 8-bit data now! 
+  // The Data Width Converter IP outside this module handles the 32-bit to 8-bit conversion.
   input  logic [7:0]  s_axis_tdata,
   input  logic    s_axis_tvalid,
   output logic    s_axis_tready,
@@ -26,13 +27,16 @@ module orb_accelerator_top (
 );
 
   // =========================================================================
-  // 1. FAST Detector Instantiation
+  // 1. FAST Detector
   // =========================================================================
   logic    fast_is_corner;
   logic [15:0] fast_x;
   logic [15:0] fast_y;
   logic [7:0]  fast_score;
   logic    fast_valid;
+  
+  // Internal ready signal from NMS to control the image stream
+  logic    nms_ready; 
 
   fast_detector_top inst_fast (
     .clk       (clk),
@@ -40,7 +44,7 @@ module orb_accelerator_top (
     .image_width   (image_width),
     .threshold   (threshold),
     .s_axis_tdata  (s_axis_tdata),
-    .s_axis_tvalid (s_axis_tvalid & s_axis_tready), // Only valid if we are ready
+    .s_axis_tvalid (s_axis_tvalid & nms_ready), // Stall FAST if NMS is flushing
     .out_is_corner (fast_is_corner),
     .out_x     (fast_x),
     .out_y     (fast_y),
@@ -48,8 +52,47 @@ module orb_accelerator_top (
     .out_valid   (fast_valid)
   );
 
+  // Control the upstream DMA: Only ready if both NMS and our local packetizer are ready
+  assign s_axis_tready = nms_ready; 
+
+  // Detect EOF from the incoming stream (Delayed by pipeline length roughly)
+  // For a robust design, EOF should be pipelined with the pixels. 
+  // For now, we capture tlast directly.
+  logic fast_eof;
+  assign fast_eof = (s_axis_tvalid && s_axis_tready && s_axis_tlast);
+
   // =========================================================================
-  // 2. AXI-Stream Packetizer State Machine
+  // 2. Grid-based NMS Filter
+  // =========================================================================
+  logic    nms_out_valid;
+  logic [15:0] nms_out_x;
+  logic [15:0] nms_out_y;
+  logic [7:0]  nms_out_score;
+  logic    nms_out_eof;
+  logic    pkt_ready; // Ready signal from the Packetizer below
+
+  fast_nms_filter #(
+    .GRID_SIZE_LOG2(4),
+    .MAX_GRIDS_X(40)
+  ) inst_nms (
+    .clk    (clk),
+    .resetn   (resetn),
+    .in_valid   (fast_valid && fast_is_corner), // Only send actual corners to NMS
+    .in_x     (fast_x),
+    .in_y     (fast_y),
+    .in_score   (fast_score),
+    .in_eof   (fast_eof),
+    .in_ready   (nms_ready),
+    .out_valid  (nms_out_valid),
+    .out_x    (nms_out_x),
+    .out_y    (nms_out_y),
+    .out_score  (nms_out_score),
+    .out_eof  (nms_out_eof),
+    .out_ready  (pkt_ready)
+  );
+
+  // =========================================================================
+  // 3. AXI-Stream Packetizer State Machine (11 Words per Keypoint)
   // =========================================================================
   typedef enum logic [1:0] {
     IDLE,
@@ -58,84 +101,70 @@ module orb_accelerator_top (
   } state_t;
 
   state_t current_state, next_state;
-  logic [3:0] word_counter; // Counts from 0 to 10 (11 words total)
+  logic [3:0] word_counter;
 
-  // Sequential Logic
   always_ff @(posedge clk or negedge resetn) begin
     if (!resetn) begin
       current_state <= IDLE;
       word_counter  <= 4'd0;
     end else begin
       current_state <= next_state;
-      
-      // Counter management
       if (current_state == SEND_KP && m_axis_tvalid && m_axis_tready) begin
-        if (word_counter == 4'd10) begin
-          word_counter <= 4'd0;
-        end else begin
-          word_counter <= word_counter + 4'd1;
-        end
+        if (word_counter == 4'd10) word_counter <= 4'd0;
+        else word_counter <= word_counter + 4'd1;
       end
     end
   end
 
-  // Combinational Logic for Next State
   always_comb begin
     next_state = current_state;
+    pkt_ready  = 1'b0;
+
     case (current_state)
       IDLE: begin
-        if (fast_valid && fast_is_corner) begin
-          next_state = SEND_KP;
-        end else if (s_axis_tvalid && s_axis_tlast && s_axis_tready) begin
-          // Image finished
-          next_state = DONE_FRAME;
+        pkt_ready = 1'b1;
+        if (nms_out_valid) begin
+          if (nms_out_eof) begin
+            next_state = DONE_FRAME;
+          end else begin
+            next_state = SEND_KP;
+          end
         end
       end
-      
       SEND_KP: begin
-        // Return to IDLE after sending the 11th word
         if (word_counter == 4'd10 && m_axis_tready) begin
           next_state = IDLE;
         end
       end
-      
       DONE_FRAME: begin
-        next_state = IDLE;
+        if (m_axis_tready) next_state = IDLE;
       end
     endcase
   end
 
-  // 3. Output Assignments
-  // Stall the incoming image stream if we are busy sending a keypoint packet
-  assign s_axis_tready = (current_state == IDLE) ? 1'b1 : 1'b0;
-
+  // =========================================================================
+  // 4. Output Assignments & Dummy Padding
+  // =========================================================================
   always_comb begin
     m_axis_tvalid = 1'b0;
     m_axis_tdata  = 32'd0;
-    m_axis_tlast  = 1'b0; // Default to 0
+    m_axis_tlast  = 1'b0;
     
     if (current_state == SEND_KP) begin
       m_axis_tvalid = 1'b1;
       case (word_counter)
-        4'd0: m_axis_tdata = {fast_y, fast_x};          // Word 0: y, x
-        4'd1: m_axis_tdata = {16'd0, 8'd0, fast_score};       // Word 1: angle(0), response(score)
-        // Word 2 to 9 will default to 32'd0 (Descriptor zeros)
-        // Word 10 will default to 32'd0 (Padding zeros)
-        default: m_axis_tdata = 32'd0;
+        4'd0: m_axis_tdata = {nms_out_y, nms_out_x};    // Word 0: y, x
+        4'd1: m_axis_tdata = {16'd0, 8'd0, nms_out_score};// Word 1: pad, oct, ang, score
+        default: m_axis_tdata = 32'd0;          // Words 2-10: Zeros
       endcase
     end 
     else if (current_state == DONE_FRAME) begin
-      // Send a dummy EOF packet with TLAST asserted to halt the DMA
       m_axis_tvalid = 1'b1;
-      m_axis_tdata  = 32'hFFFFFFFF; // Special EOF marker for software debugging
+      m_axis_tdata  = 32'hFFFFFFFF; // EOF marker
       m_axis_tlast  = 1'b1;
     end
   end
 
-  // Interrupt logic
-  assign irq_done = (current_state == DONE_FRAME) ? 1'b1 : 1'b0;
-  // For TLAST, usually you assert it on the very last word of the very last keypoint. 
-  // For simplicity in bare-metal, DMA might just rely on a fixed length or we tie it to 0.
-  assign m_axis_tlast = 1'b0; 
+  assign irq_done = (current_state == DONE_FRAME && m_axis_tready) ? 1'b1 : 1'b0;
 
 endmodule

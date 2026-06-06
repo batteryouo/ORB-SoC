@@ -19,10 +19,10 @@
         }
       },
       "xlconcat_0": "",
-      "orb_accelerator_top_0": "",
       "image_width_const": "",
       "threshold_const": "",
-      "axis_dwidth_converter_0": ""
+      "axis_dwidth_converter_0": "",
+      "orb_accelerator_top_0": ""
     },
     "interface_ports": {
       "DDR": {
@@ -1066,16 +1066,16 @@
               }
             },
             "interface_nets": {
-              "auto_pc_to_s00_couplers": {
-                "interface_ports": [
-                  "M_AXI",
-                  "auto_pc/M_AXI"
-                ]
-              },
               "s00_couplers_to_auto_pc": {
                 "interface_ports": [
                   "S_AXI",
                   "auto_pc/S_AXI"
+                ]
+              },
+              "auto_pc_to_s00_couplers": {
+                "interface_ports": [
+                  "M_AXI",
+                  "auto_pc/M_AXI"
                 ]
               }
             },
@@ -1096,16 +1096,16 @@
           }
         },
         "interface_nets": {
-          "s00_couplers_to_ps7_0_axi_periph": {
-            "interface_ports": [
-              "M00_AXI",
-              "s00_couplers/M_AXI"
-            ]
-          },
           "ps7_0_axi_periph_to_s00_couplers": {
             "interface_ports": [
               "S00_AXI",
               "s00_couplers/S_AXI"
+            ]
+          },
+          "s00_couplers_to_ps7_0_axi_periph": {
+            "interface_ports": [
+              "M00_AXI",
+              "s00_couplers/M_AXI"
             ]
           }
         },
@@ -1144,10 +1144,6 @@
             "value": "3"
           }
         }
-      },
-      "orb_accelerator_top_0": {
-        "vlnv": "xilinx.com:user:orb_accelerator_top:1.0",
-        "xci_name": "system_bd_orb_accelerator_top_0_0"
       },
       "image_width_const": {
         "vlnv": "xilinx.com:ip:xlconstant:1.1",
@@ -1193,6 +1189,10 @@
             "value": "4"
           }
         }
+      },
+      "orb_accelerator_top_0": {
+        "vlnv": "xilinx.com:user:orb_accelerator_top:1.0",
+        "xci_name": "system_bd_orb_accelerator_top_0_1"
       }
     },
     "interface_nets": {
@@ -1244,16 +1244,16 @@
           "axi_smc/S00_AXI"
         ]
       },
-      "orb_accelerator_top_0_m_axis": {
-        "interface_ports": [
-          "orb_accelerator_top_0/m_axis",
-          "axi_dma_0/S_AXIS_S2MM"
-        ]
-      },
       "axis_dwidth_converter_0_M_AXIS": {
         "interface_ports": [
           "orb_accelerator_top_0/s_axis",
           "axis_dwidth_converter_0/M_AXIS"
+        ]
+      },
+      "orb_accelerator_top_0_m_axis": {
+        "interface_ports": [
+          "orb_accelerator_top_0/m_axis",
+          "axi_dma_0/S_AXIS_S2MM"
         ]
       }
     },
@@ -1290,8 +1290,8 @@
           "axi_dma_0/axi_resetn",
           "ps7_0_axi_periph/M00_ARESETN",
           "ps7_0_axi_periph/ARESETN",
-          "orb_accelerator_top_0/resetn",
-          "axis_dwidth_converter_0/aresetn"
+          "axis_dwidth_converter_0/aresetn",
+          "orb_accelerator_top_0/resetn"
         ]
       },
       "processing_system7_0_FCLK_CLK0": {
@@ -1307,26 +1307,26 @@
           "ps7_0_axi_periph/M00_ACLK",
           "ps7_0_axi_periph/ACLK",
           "axi_dma_0/m_axi_s2mm_aclk",
-          "orb_accelerator_top_0/clk",
-          "axis_dwidth_converter_0/aclk"
+          "axis_dwidth_converter_0/aclk",
+          "orb_accelerator_top_0/clk"
+        ]
+      },
+      "image_width_const_dout": {
+        "ports": [
+          "image_width_const/dout",
+          "orb_accelerator_top_0/image_width"
+        ]
+      },
+      "threshold_const_dout": {
+        "ports": [
+          "threshold_const/dout",
+          "orb_accelerator_top_0/threshold"
         ]
       },
       "orb_accelerator_top_0_irq_done": {
         "ports": [
           "orb_accelerator_top_0/irq_done",
           "xlconcat_0/In2"
-        ]
-      },
-      "xlconstant_0_dout": {
-        "ports": [
-          "image_width_const/dout",
-          "orb_accelerator_top_0/image_width"
-        ]
-      },
-      "xlconstant_1_dout": {
-        "ports": [
-          "threshold_const/dout",
-          "orb_accelerator_top_0/threshold"
         ]
       }
     },

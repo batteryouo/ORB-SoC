@@ -88,6 +88,15 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/imports/fast/fast_nms_filter.sv">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../../rtl/fast/fast_nms_filter.sv"/>
+          <Attr Name="ImportTime" Val="1780777817"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/imports/fast/fast_window_dynamic.sv">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../../rtl/fast/fast_window_dynamic.sv"/>
