@@ -1,7 +1,40 @@
 // ORB Accelerator Control 
 #include "orb_accelerator.h"
+#include "xparameters.h"
 #include "xstatus.h"
+#include "xil_printf.h"
 
+XAxiDma dma_orb;  // global DMA instance
+
+int init_orb_dma(void){
+  XAxiDma_Config *cfg;
+  int status;
+  
+  // Find XPAR_AXI_DMA_0_DEVICE_ID in xparameters.h
+  cfg = XAxiDma_LookupConfig(XPAR_AXI_DMA_0_DEVICE_ID);
+  if (!cfg) {
+    xil_printf("[ERR] XAxiDma_LookupConfig failed\r\n");
+    return XST_FAILURE;
+  }
+  
+  status = XAxiDma_CfgInitialize(&dma_orb, cfg);
+  if (status != XST_SUCCESS) {
+    xil_printf("[ERR] XAxiDma_CfgInitialize failed (%d)\r\n", status);
+    return XST_FAILURE;
+  }
+  
+  // check if not Scatter-Gather mode
+  if (XAxiDma_HasSg(&dma_orb)) {
+    xil_printf("[ERR] DMA is in SG mode, expected simple mode\r\n");
+    return XST_FAILURE;
+  }
+  
+  // Trun off Interrupt (Testing for polling mode)
+  XAxiDma_IntrDisable(&dma_orb, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
+  XAxiDma_IntrDisable(&dma_orb, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
+  
+  return XST_SUCCESS;
+}
 int run_orb_accel(uint32_t img_addr, uint32_t img_len, uint32_t res_addr, uint32_t res_max_len) {
           
   int status;
