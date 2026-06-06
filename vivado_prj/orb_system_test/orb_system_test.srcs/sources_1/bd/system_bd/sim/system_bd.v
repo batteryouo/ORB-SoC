@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-//Date        : Sat Jun  6 21:35:24 2026
+//Date        : Sun Jun  7 03:45:55 2026
 //Host        : battery running 64-bit major release  (build 9200)
 //Command     : generate_target system_bd.bd
 //Design      : system_bd
@@ -299,7 +299,7 @@ module s00_couplers_imp_1HHWGQV
         .s_axi_wvalid(s00_couplers_to_auto_pc_WVALID));
 endmodule
 
-(* CORE_GENERATION_INFO = "system_bd,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=system_bd,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=10,numReposBlks=8,numNonXlnxBlks=0,numHierBlks=2,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_clkrst_cnt=1,da_ps7_cnt=1,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "system_bd.hwdef" *) 
+(* CORE_GENERATION_INFO = "system_bd,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=system_bd,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=12,numReposBlks=10,numNonXlnxBlks=0,numHierBlks=2,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=0,numPkgbdBlks=0,bdsource=USER,da_axi4_cnt=3,da_clkrst_cnt=3,da_ps7_cnt=1,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "system_bd.hwdef" *) 
 module system_bd
    (DDR_addr,
     DDR_ba,
@@ -344,7 +344,8 @@ module system_bd
   (* X_INTERFACE_INFO = "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_PORB" *) inout FIXED_IO_ps_porb;
   (* X_INTERFACE_INFO = "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO PS_SRSTB" *) inout FIXED_IO_ps_srstb;
 
-  wire [7:0]axi_dma_0_M_AXIS_MM2S_TDATA;
+  wire [31:0]axi_dma_0_M_AXIS_MM2S_TDATA;
+  wire [3:0]axi_dma_0_M_AXIS_MM2S_TKEEP;
   wire axi_dma_0_M_AXIS_MM2S_TLAST;
   wire axi_dma_0_M_AXIS_MM2S_TREADY;
   wire axi_dma_0_M_AXIS_MM2S_TVALID;
@@ -412,11 +413,15 @@ module system_bd
   wire axi_smc_M00_AXI_WREADY;
   wire [7:0]axi_smc_M00_AXI_WSTRB;
   wire axi_smc_M00_AXI_WVALID;
-  wire orb_dummy_ip_0_irq_done;
-  wire [31:0]orb_dummy_ip_0_m_axis_result_TDATA;
-  wire orb_dummy_ip_0_m_axis_result_TLAST;
-  wire orb_dummy_ip_0_m_axis_result_TREADY;
-  wire orb_dummy_ip_0_m_axis_result_TVALID;
+  wire [7:0]axis_dwidth_converter_0_M_AXIS_TDATA;
+  wire axis_dwidth_converter_0_M_AXIS_TLAST;
+  wire axis_dwidth_converter_0_M_AXIS_TREADY;
+  wire axis_dwidth_converter_0_M_AXIS_TVALID;
+  wire orb_accelerator_top_0_irq_done;
+  wire [31:0]orb_accelerator_top_0_m_axis_TDATA;
+  wire orb_accelerator_top_0_m_axis_TLAST;
+  wire orb_accelerator_top_0_m_axis_TREADY;
+  wire orb_accelerator_top_0_m_axis_TVALID;
   wire [14:0]processing_system7_0_DDR_ADDR;
   wire [2:0]processing_system7_0_DDR_BA;
   wire processing_system7_0_DDR_CAS_N;
@@ -496,7 +501,8 @@ module system_bd
   wire ps7_0_axi_periph_M00_AXI_WVALID;
   wire [0:0]rst_ps7_0_100M_peripheral_aresetn;
   wire [2:0]xlconcat_0_dout;
-  wire [0:0]xlconstant_0_dout;
+  wire [15:0]xlconstant_0_dout;
+  wire [7:0]xlconstant_1_dout;
 
   system_bd_axi_dma_0_0 axi_dma_0
        (.axi_resetn(rst_ps7_0_100M_peripheral_aresetn),
@@ -532,6 +538,7 @@ module system_bd
         .m_axi_s2mm_wstrb(axi_dma_0_M_AXI_S2MM_WSTRB),
         .m_axi_s2mm_wvalid(axi_dma_0_M_AXI_S2MM_WVALID),
         .m_axis_mm2s_tdata(axi_dma_0_M_AXIS_MM2S_TDATA),
+        .m_axis_mm2s_tkeep(axi_dma_0_M_AXIS_MM2S_TKEEP),
         .m_axis_mm2s_tlast(axi_dma_0_M_AXIS_MM2S_TLAST),
         .m_axis_mm2s_tready(axi_dma_0_M_AXIS_MM2S_TREADY),
         .m_axis_mm2s_tvalid(axi_dma_0_M_AXIS_MM2S_TVALID),
@@ -554,11 +561,11 @@ module system_bd
         .s_axi_lite_wdata(ps7_0_axi_periph_M00_AXI_WDATA),
         .s_axi_lite_wready(ps7_0_axi_periph_M00_AXI_WREADY),
         .s_axi_lite_wvalid(ps7_0_axi_periph_M00_AXI_WVALID),
-        .s_axis_s2mm_tdata(orb_dummy_ip_0_m_axis_result_TDATA),
+        .s_axis_s2mm_tdata(orb_accelerator_top_0_m_axis_TDATA),
         .s_axis_s2mm_tkeep({1'b1,1'b1,1'b1,1'b1}),
-        .s_axis_s2mm_tlast(orb_dummy_ip_0_m_axis_result_TLAST),
-        .s_axis_s2mm_tready(orb_dummy_ip_0_m_axis_result_TREADY),
-        .s_axis_s2mm_tvalid(orb_dummy_ip_0_m_axis_result_TVALID));
+        .s_axis_s2mm_tlast(orb_accelerator_top_0_m_axis_TLAST),
+        .s_axis_s2mm_tready(orb_accelerator_top_0_m_axis_TREADY),
+        .s_axis_s2mm_tvalid(orb_accelerator_top_0_m_axis_TVALID));
   system_bd_axi_smc_0 axi_smc
        (.M00_AXI_araddr(axi_smc_M00_AXI_ARADDR),
         .M00_AXI_arburst(axi_smc_M00_AXI_ARBURST),
@@ -628,19 +635,34 @@ module system_bd
         .S01_AXI_wvalid(axi_dma_0_M_AXI_S2MM_WVALID),
         .aclk(processing_system7_0_FCLK_CLK0),
         .aresetn(rst_ps7_0_100M_peripheral_aresetn));
-  system_bd_orb_dummy_ip_0_0 orb_dummy_ip_0
-       (.axi_lite_start(xlconstant_0_dout),
-        .clk(processing_system7_0_FCLK_CLK0),
-        .irq_done(orb_dummy_ip_0_irq_done),
-        .m_axis_result_tdata(orb_dummy_ip_0_m_axis_result_TDATA),
-        .m_axis_result_tlast(orb_dummy_ip_0_m_axis_result_TLAST),
-        .m_axis_result_tready(orb_dummy_ip_0_m_axis_result_TREADY),
-        .m_axis_result_tvalid(orb_dummy_ip_0_m_axis_result_TVALID),
+  system_bd_axis_dwidth_converter_0_0 axis_dwidth_converter_0
+       (.aclk(processing_system7_0_FCLK_CLK0),
+        .aresetn(rst_ps7_0_100M_peripheral_aresetn),
+        .m_axis_tdata(axis_dwidth_converter_0_M_AXIS_TDATA),
+        .m_axis_tlast(axis_dwidth_converter_0_M_AXIS_TLAST),
+        .m_axis_tready(axis_dwidth_converter_0_M_AXIS_TREADY),
+        .m_axis_tvalid(axis_dwidth_converter_0_M_AXIS_TVALID),
+        .s_axis_tdata(axi_dma_0_M_AXIS_MM2S_TDATA),
+        .s_axis_tkeep(axi_dma_0_M_AXIS_MM2S_TKEEP),
+        .s_axis_tlast(axi_dma_0_M_AXIS_MM2S_TLAST),
+        .s_axis_tready(axi_dma_0_M_AXIS_MM2S_TREADY),
+        .s_axis_tvalid(axi_dma_0_M_AXIS_MM2S_TVALID));
+  system_bd_xlconstant_0_1 image_width_const
+       (.dout(xlconstant_0_dout));
+  system_bd_orb_accelerator_top_0_0 orb_accelerator_top_0
+       (.clk(processing_system7_0_FCLK_CLK0),
+        .image_width(xlconstant_0_dout),
+        .irq_done(orb_accelerator_top_0_irq_done),
+        .m_axis_tdata(orb_accelerator_top_0_m_axis_TDATA),
+        .m_axis_tlast(orb_accelerator_top_0_m_axis_TLAST),
+        .m_axis_tready(orb_accelerator_top_0_m_axis_TREADY),
+        .m_axis_tvalid(orb_accelerator_top_0_m_axis_TVALID),
         .resetn(rst_ps7_0_100M_peripheral_aresetn),
-        .s_axis_image_tdata(axi_dma_0_M_AXIS_MM2S_TDATA),
-        .s_axis_image_tlast(axi_dma_0_M_AXIS_MM2S_TLAST),
-        .s_axis_image_tready(axi_dma_0_M_AXIS_MM2S_TREADY),
-        .s_axis_image_tvalid(axi_dma_0_M_AXIS_MM2S_TVALID));
+        .s_axis_tdata(axis_dwidth_converter_0_M_AXIS_TDATA),
+        .s_axis_tlast(axis_dwidth_converter_0_M_AXIS_TLAST),
+        .s_axis_tready(axis_dwidth_converter_0_M_AXIS_TREADY),
+        .s_axis_tvalid(axis_dwidth_converter_0_M_AXIS_TVALID),
+        .threshold(xlconstant_1_dout));
   system_bd_processing_system7_0_0 processing_system7_0
        (.DDR_Addr(DDR_addr[14:0]),
         .DDR_BankAddr(DDR_ba[2:0]),
@@ -813,13 +835,13 @@ module system_bd
         .mb_debug_sys_rst(1'b0),
         .peripheral_aresetn(rst_ps7_0_100M_peripheral_aresetn),
         .slowest_sync_clk(processing_system7_0_FCLK_CLK0));
+  system_bd_xlconstant_1_0 threshold_const
+       (.dout(xlconstant_1_dout));
   system_bd_xlconcat_0_0 xlconcat_0
        (.In0(axi_dma_0_mm2s_introut),
         .In1(axi_dma_0_s2mm_introut),
-        .In2(orb_dummy_ip_0_irq_done),
+        .In2(orb_accelerator_top_0_irq_done),
         .dout(xlconcat_0_dout));
-  system_bd_xlconstant_0_0 xlconstant_0
-       (.dout(xlconstant_0_dout));
 endmodule
 
 module system_bd_ps7_0_axi_periph_0

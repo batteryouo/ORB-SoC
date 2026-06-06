@@ -2,39 +2,43 @@
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0.19  2019-03-26 bk=1.5019 VDI=41 GEI=35 GUI=JA:9.0 non-TLS
 #  -string -flagsOSRD
-preplace port DDR -pg 1 -lvl 5 -x 1870 -y 410 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -lvl 5 -x 1870 -y 540 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 4 -x 860 -y 480 -defaultsOSRD
-preplace inst axi_dma_0 -pg 1 -lvl 3 -x 360 -y 490 -defaultsOSRD
-preplace inst orb_dummy_ip_0 -pg 1 -lvl 2 -x -20 -y 510 -defaultsOSRD
-preplace inst axi_smc -pg 1 -lvl 3 -x 360 -y 260 -defaultsOSRD
-preplace inst rst_ps7_0_100M -pg 1 -lvl 4 -x 860 -y 240 -defaultsOSRD
-preplace inst ps7_0_axi_periph -pg 1 -lvl 4 -x 860 -y 760 -defaultsOSRD
-preplace inst xlconcat_0 -pg 1 -lvl 3 -x 360 -y 720 -defaultsOSRD
-preplace inst xlconstant_0 -pg 1 -lvl 1 -x -260 -y 540 -defaultsOSRD
-preplace netloc processing_system7_0_FCLK_CLK0 1 1 4 -180 600 130 370 570 620 1090
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 3 2 580J 140 1100J
-preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 4 -170 610 140 640 540 640 1110J
-preplace netloc axi_dma_0_mm2s_introut 1 2 2 160 610 540
-preplace netloc axi_dma_0_s2mm_introut 1 2 2 170 620 530
-preplace netloc orb_dummy_ip_0_irq_done 1 2 1 120 520n
-preplace netloc xlconcat_0_dout 1 3 1 560 520n
-preplace netloc xlconstant_0_dout 1 1 1 N 540
-preplace netloc orb_dummy_ip_0_m_axis_result 1 2 1 120 460n
-preplace netloc ps7_0_axi_periph_M00_AXI 1 2 3 150 630 N 630 1090
-preplace netloc axi_dma_0_M_AXIS_MM2S 1 1 3 -180 360 N 360 530J
-preplace netloc processing_system7_0_DDR 1 4 1 1120 400n
-preplace netloc processing_system7_0_FIXED_IO 1 4 1 1120 420n
-preplace netloc processing_system7_0_M_AXI_GP0 1 3 2 580J 340 1090J
-preplace netloc axi_dma_0_M_AXI_MM2S 1 2 2 130 170 550
-preplace netloc axi_smc_M00_AXI 1 3 1 560 260n
-preplace netloc axi_dma_0_M_AXI_S2MM 1 2 2 150 350 540
-levelinfo -pg 1 -590 -260 -20 360 860 1870
-pagesize -pg 1 -db -bbox -sgen -590 0 1990 990
+preplace port DDR -pg 1 -lvl 5 -x 1620 -y 410 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 5 -x 1620 -y 540 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 4 -x 1070 -y 480 -defaultsOSRD
+preplace inst axi_dma_0 -pg 1 -lvl 3 -x 610 -y 490 -defaultsOSRD
+preplace inst axi_smc -pg 1 -lvl 3 -x 610 -y 260 -defaultsOSRD
+preplace inst rst_ps7_0_100M -pg 1 -lvl 4 -x 1070 -y 240 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 4 -x 1070 -y 760 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 3 -x 610 -y 720 -defaultsOSRD
+preplace inst orb_accelerator_top_0 -pg 1 -lvl 2 -x 170 -y 440 -defaultsOSRD
+preplace inst image_width_const -pg 1 -lvl 1 -x -110 -y 440 -defaultsOSRD
+preplace inst threshold_const -pg 1 -lvl 1 -x -110 -y 540 -defaultsOSRD
+preplace inst axis_dwidth_converter_0 -pg 1 -lvl 2 -x 170 -y 680 -defaultsOSRD
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 3 2 830J 340 1310J
+preplace netloc axi_dma_0_mm2s_introut 1 2 2 370 620 790
+preplace netloc axi_dma_0_s2mm_introut 1 2 2 380 630 780
+preplace netloc xlconcat_0_dout 1 3 1 810 520n
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 4 0 540 330 640 790 640 1330
+preplace netloc processing_system7_0_FCLK_CLK0 1 1 4 -10 330 350 350 820 620 1300
+preplace netloc orb_accelerator_top_0_irq_done 1 2 1 310 450n
+preplace netloc xlconstant_0_dout 1 1 1 -20 440n
+preplace netloc xlconstant_1_dout 1 1 1 -20 480n
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 3 360 880 N 880 1300
+preplace netloc processing_system7_0_DDR 1 4 1 1340 400n
+preplace netloc processing_system7_0_M_AXI_GP0 1 3 2 830J 630 1320J
+preplace netloc axi_dma_0_M_AXI_MM2S 1 2 2 300 160 800
+preplace netloc processing_system7_0_FIXED_IO 1 4 1 1340 420n
+preplace netloc axi_smc_M00_AXI 1 3 1 810 260n
+preplace netloc axi_dma_0_M_AXI_S2MM 1 2 2 310 170 780
+preplace netloc orb_accelerator_top_0_m_axis 1 2 1 340 430n
+preplace netloc axis_dwidth_converter_0_M_AXIS 1 1 2 0 340 300
+preplace netloc axi_dma_0_M_AXIS_MM2S 1 1 3 10 600 320J 610 800
+levelinfo -pg 1 -420 -110 170 610 1070 1620
+pagesize -pg 1 -db -bbox -sgen -420 -120 1740 990
 "
 }
 {
    "da_axi4_cnt":"3",
-   "da_clkrst_cnt":"1",
+   "da_clkrst_cnt":"3",
    "da_ps7_cnt":"1"
 }

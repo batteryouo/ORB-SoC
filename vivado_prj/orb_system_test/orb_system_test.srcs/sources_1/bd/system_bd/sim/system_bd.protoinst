@@ -177,26 +177,50 @@
 						"WVALID": { "actual": "S01_AXI_wvalid"}
 					}
 				},
-				"/orb_dummy_ip_0/m_axis_result": {
+				"/axis_dwidth_converter_0/M_AXIS": {
 					"interface": "xilinx.com:interface:axis:1.0",
 					"ports": {
-						"ACLK": { "actual": "clk"},
-						"ARESETN": { "actual": "resetn"},
-						"TDATA": { "actual": "m_axis_result_tdata"},
-						"TLAST": { "actual": "m_axis_result_tlast"},
-						"TREADY": { "actual": "m_axis_result_tready"},
-						"TVALID": { "actual": "m_axis_result_tvalid"}
+						"ACLK": { "actual": "aclk"},
+						"ARESETN": { "actual": "aresetn"},
+						"TDATA": { "actual": "m_axis_tdata"},
+						"TKEEP": { "actual": "m_axis_tkeep"},
+						"TLAST": { "actual": "m_axis_tlast"},
+						"TREADY": { "actual": "m_axis_tready"},
+						"TVALID": { "actual": "m_axis_tvalid"}
 					}
 				},
-				"/orb_dummy_ip_0/s_axis_image": {
+				"/axis_dwidth_converter_0/S_AXIS": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "aclk"},
+						"ARESETN": { "actual": "aresetn"},
+						"TDATA": { "actual": "s_axis_tdata"},
+						"TKEEP": { "actual": "s_axis_tkeep"},
+						"TLAST": { "actual": "s_axis_tlast"},
+						"TREADY": { "actual": "s_axis_tready"},
+						"TVALID": { "actual": "s_axis_tvalid"}
+					}
+				},
+				"/orb_accelerator_top_0/m_axis": {
 					"interface": "xilinx.com:interface:axis:1.0",
 					"ports": {
 						"ACLK": { "actual": "clk"},
 						"ARESETN": { "actual": "resetn"},
-						"TDATA": { "actual": "s_axis_image_tdata"},
-						"TLAST": { "actual": "s_axis_image_tlast"},
-						"TREADY": { "actual": "s_axis_image_tready"},
-						"TVALID": { "actual": "s_axis_image_tvalid"}
+						"TDATA": { "actual": "m_axis_tdata"},
+						"TLAST": { "actual": "m_axis_tlast"},
+						"TREADY": { "actual": "m_axis_tready"},
+						"TVALID": { "actual": "m_axis_tvalid"}
+					}
+				},
+				"/orb_accelerator_top_0/s_axis": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "clk"},
+						"ARESETN": { "actual": "resetn"},
+						"TDATA": { "actual": "s_axis_tdata"},
+						"TLAST": { "actual": "s_axis_tlast"},
+						"TREADY": { "actual": "s_axis_tready"},
+						"TVALID": { "actual": "s_axis_tvalid"}
 					}
 				},
 				"/processing_system7_0/M_AXI_GP0": {

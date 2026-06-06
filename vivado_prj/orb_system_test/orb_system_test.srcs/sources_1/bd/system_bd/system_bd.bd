@@ -11,7 +11,6 @@
     "design_tree": {
       "processing_system7_0": "",
       "axi_dma_0": "",
-      "orb_dummy_ip_0": "",
       "axi_smc": "",
       "rst_ps7_0_100M": "",
       "ps7_0_axi_periph": {
@@ -20,7 +19,10 @@
         }
       },
       "xlconcat_0": "",
-      "xlconstant_0": ""
+      "orb_accelerator_top_0": "",
+      "image_width_const": "",
+      "threshold_const": "",
+      "axis_dwidth_converter_0": ""
     },
     "interface_ports": {
       "DDR": {
@@ -898,16 +900,12 @@
             "value": "0"
           },
           "c_m_axis_mm2s_tdata_width": {
-            "value": "8"
+            "value": "32"
           },
           "c_sg_length_width": {
             "value": "23"
           }
         }
-      },
-      "orb_dummy_ip_0": {
-        "vlnv": "xilinx.com:user:orb_dummy_ip:1.0",
-        "xci_name": "system_bd_orb_dummy_ip_0_0"
       },
       "axi_smc": {
         "vlnv": "xilinx.com:ip:smartconnect:1.0",
@@ -1098,16 +1096,16 @@
           }
         },
         "interface_nets": {
-          "ps7_0_axi_periph_to_s00_couplers": {
-            "interface_ports": [
-              "S00_AXI",
-              "s00_couplers/S_AXI"
-            ]
-          },
           "s00_couplers_to_ps7_0_axi_periph": {
             "interface_ports": [
               "M00_AXI",
               "s00_couplers/M_AXI"
+            ]
+          },
+          "ps7_0_axi_periph_to_s00_couplers": {
+            "interface_ports": [
+              "S00_AXI",
+              "s00_couplers/S_AXI"
             ]
           }
         },
@@ -1147,28 +1145,61 @@
           }
         }
       },
-      "xlconstant_0": {
+      "orb_accelerator_top_0": {
+        "vlnv": "xilinx.com:user:orb_accelerator_top:1.0",
+        "xci_name": "system_bd_orb_accelerator_top_0_0"
+      },
+      "image_width_const": {
         "vlnv": "xilinx.com:ip:xlconstant:1.1",
-        "xci_name": "system_bd_xlconstant_0_0"
+        "xci_name": "system_bd_xlconstant_0_1",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "80"
+          },
+          "CONST_WIDTH": {
+            "value": "16"
+          }
+        }
+      },
+      "threshold_const": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "xci_name": "system_bd_xlconstant_1_0",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "12"
+          },
+          "CONST_WIDTH": {
+            "value": "8"
+          }
+        }
+      },
+      "axis_dwidth_converter_0": {
+        "vlnv": "xilinx.com:ip:axis_dwidth_converter:1.1",
+        "xci_name": "system_bd_axis_dwidth_converter_0_0",
+        "parameters": {
+          "HAS_ACLKEN": {
+            "value": "0"
+          },
+          "HAS_MI_TKEEP": {
+            "value": "0"
+          },
+          "HAS_TLAST": {
+            "value": "1"
+          },
+          "M_TDATA_NUM_BYTES": {
+            "value": "1"
+          },
+          "S_TDATA_NUM_BYTES": {
+            "value": "4"
+          }
+        }
       }
     },
     "interface_nets": {
-      "orb_dummy_ip_0_m_axis_result": {
-        "interface_ports": [
-          "orb_dummy_ip_0/m_axis_result",
-          "axi_dma_0/S_AXIS_S2MM"
-        ]
-      },
-      "ps7_0_axi_periph_M00_AXI": {
-        "interface_ports": [
-          "ps7_0_axi_periph/M00_AXI",
-          "axi_dma_0/S_AXI_LITE"
-        ]
-      },
       "axi_dma_0_M_AXIS_MM2S": {
         "interface_ports": [
-          "axi_dma_0/M_AXIS_MM2S",
-          "orb_dummy_ip_0/s_axis_image"
+          "axis_dwidth_converter_0/S_AXIS",
+          "axi_dma_0/M_AXIS_MM2S"
         ]
       },
       "processing_system7_0_DDR": {
@@ -1177,22 +1208,22 @@
           "processing_system7_0/DDR"
         ]
       },
-      "processing_system7_0_M_AXI_GP0": {
+      "ps7_0_axi_periph_M00_AXI": {
         "interface_ports": [
-          "processing_system7_0/M_AXI_GP0",
-          "ps7_0_axi_periph/S00_AXI"
-        ]
-      },
-      "axi_dma_0_M_AXI_MM2S": {
-        "interface_ports": [
-          "axi_dma_0/M_AXI_MM2S",
-          "axi_smc/S00_AXI"
+          "ps7_0_axi_periph/M00_AXI",
+          "axi_dma_0/S_AXI_LITE"
         ]
       },
       "processing_system7_0_FIXED_IO": {
         "interface_ports": [
           "FIXED_IO",
           "processing_system7_0/FIXED_IO"
+        ]
+      },
+      "processing_system7_0_M_AXI_GP0": {
+        "interface_ports": [
+          "processing_system7_0/M_AXI_GP0",
+          "ps7_0_axi_periph/S00_AXI"
         ]
       },
       "axi_smc_M00_AXI": {
@@ -1206,40 +1237,31 @@
           "axi_dma_0/M_AXI_S2MM",
           "axi_smc/S01_AXI"
         ]
+      },
+      "axi_dma_0_M_AXI_MM2S": {
+        "interface_ports": [
+          "axi_dma_0/M_AXI_MM2S",
+          "axi_smc/S00_AXI"
+        ]
+      },
+      "orb_accelerator_top_0_m_axis": {
+        "interface_ports": [
+          "orb_accelerator_top_0/m_axis",
+          "axi_dma_0/S_AXIS_S2MM"
+        ]
+      },
+      "axis_dwidth_converter_0_M_AXIS": {
+        "interface_ports": [
+          "orb_accelerator_top_0/s_axis",
+          "axis_dwidth_converter_0/M_AXIS"
+        ]
       }
     },
     "nets": {
-      "processing_system7_0_FCLK_CLK0": {
-        "ports": [
-          "processing_system7_0/FCLK_CLK0",
-          "axi_dma_0/m_axi_mm2s_aclk",
-          "axi_smc/aclk",
-          "processing_system7_0/S_AXI_HP0_ACLK",
-          "rst_ps7_0_100M/slowest_sync_clk",
-          "processing_system7_0/M_AXI_GP0_ACLK",
-          "ps7_0_axi_periph/S00_ACLK",
-          "axi_dma_0/s_axi_lite_aclk",
-          "ps7_0_axi_periph/M00_ACLK",
-          "ps7_0_axi_periph/ACLK",
-          "orb_dummy_ip_0/clk",
-          "axi_dma_0/m_axi_s2mm_aclk"
-        ]
-      },
       "processing_system7_0_FCLK_RESET0_N": {
         "ports": [
           "processing_system7_0/FCLK_RESET0_N",
           "rst_ps7_0_100M/ext_reset_in"
-        ]
-      },
-      "rst_ps7_0_100M_peripheral_aresetn": {
-        "ports": [
-          "rst_ps7_0_100M/peripheral_aresetn",
-          "axi_smc/aresetn",
-          "ps7_0_axi_periph/S00_ARESETN",
-          "axi_dma_0/axi_resetn",
-          "ps7_0_axi_periph/M00_ARESETN",
-          "ps7_0_axi_periph/ARESETN",
-          "orb_dummy_ip_0/resetn"
         ]
       },
       "axi_dma_0_mm2s_introut": {
@@ -1254,22 +1276,57 @@
           "xlconcat_0/In1"
         ]
       },
-      "orb_dummy_ip_0_irq_done": {
-        "ports": [
-          "orb_dummy_ip_0/irq_done",
-          "xlconcat_0/In2"
-        ]
-      },
       "xlconcat_0_dout": {
         "ports": [
           "xlconcat_0/dout",
           "processing_system7_0/IRQ_F2P"
         ]
       },
+      "rst_ps7_0_100M_peripheral_aresetn": {
+        "ports": [
+          "rst_ps7_0_100M/peripheral_aresetn",
+          "axi_smc/aresetn",
+          "ps7_0_axi_periph/S00_ARESETN",
+          "axi_dma_0/axi_resetn",
+          "ps7_0_axi_periph/M00_ARESETN",
+          "ps7_0_axi_periph/ARESETN",
+          "orb_accelerator_top_0/resetn",
+          "axis_dwidth_converter_0/aresetn"
+        ]
+      },
+      "processing_system7_0_FCLK_CLK0": {
+        "ports": [
+          "processing_system7_0/FCLK_CLK0",
+          "axi_dma_0/m_axi_mm2s_aclk",
+          "axi_smc/aclk",
+          "processing_system7_0/S_AXI_HP0_ACLK",
+          "rst_ps7_0_100M/slowest_sync_clk",
+          "processing_system7_0/M_AXI_GP0_ACLK",
+          "ps7_0_axi_periph/S00_ACLK",
+          "axi_dma_0/s_axi_lite_aclk",
+          "ps7_0_axi_periph/M00_ACLK",
+          "ps7_0_axi_periph/ACLK",
+          "axi_dma_0/m_axi_s2mm_aclk",
+          "orb_accelerator_top_0/clk",
+          "axis_dwidth_converter_0/aclk"
+        ]
+      },
+      "orb_accelerator_top_0_irq_done": {
+        "ports": [
+          "orb_accelerator_top_0/irq_done",
+          "xlconcat_0/In2"
+        ]
+      },
       "xlconstant_0_dout": {
         "ports": [
-          "xlconstant_0/dout",
-          "orb_dummy_ip_0/axi_lite_start"
+          "image_width_const/dout",
+          "orb_accelerator_top_0/image_width"
+        ]
+      },
+      "xlconstant_1_dout": {
+        "ports": [
+          "threshold_const/dout",
+          "orb_accelerator_top_0/threshold"
         ]
       }
     },
