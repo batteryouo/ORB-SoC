@@ -159,7 +159,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>2878c424</spirit:value>
+            <spirit:value>23c47179</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -178,7 +178,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>2878c424</spirit:value>
+            <spirit:value>23c47179</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -524,19 +524,19 @@
       <xilinx:displayName>orb_accelerator_top_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:coreRevision>2</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2026-06-07T12:49:11Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2026-06-07T15:46:22Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@384b1977_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@62ca4e8a_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@777f9190_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@40b59934_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
-        <xilinx:tag xilinx:name="ui.data.coregen.dd@7dc3075d_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@10e8ce27_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@6386d37c_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@737ae358_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@35456a1b_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.dd@5f4d420f_ARCHIVE_LOCATION">e:/resources/Course/FPGA/ORB-SoC/ip_repo/orb_fast_accelerator</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2019.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="580d484c"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="b5663269"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="d8b032ef"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="8c86e490"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="e5414509"/>
     </xilinx:packagingInfo>
