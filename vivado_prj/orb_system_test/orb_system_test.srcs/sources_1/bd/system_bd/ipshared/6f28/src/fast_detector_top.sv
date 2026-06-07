@@ -3,7 +3,7 @@ module fast_detector_top (
   input  logic        resetn,
   
   input  logic [15:0] image_width,
-  input  logic [15:0] image_height, // ADDED: Required for NMS boundary check
+  input  logic [15:0] image_height,
   input  logic [7:0]  threshold,
 
   input  logic [7:0]  s_axis_tdata,
@@ -46,7 +46,7 @@ module fast_detector_top (
   );
 
   // -------------------------------------------------------------------------
-  // Base Coordinate Tracking (No compensation needed!)
+  // Base Coordinate Generation (Raw Counter)
   // -------------------------------------------------------------------------
   logic [15:0] current_x, current_y;
 
@@ -66,26 +66,36 @@ module fast_detector_top (
 
   // -------------------------------------------------------------------------
   // Grid 5x5 NMS Instantiation
+  // Pass RAW coordinates so NMS boundary logic (is_last_x/y) works perfectly
   // -------------------------------------------------------------------------
+  logic [15:0] nms_raw_x, nms_raw_y;
+  logic        nms_valid;
+
   nms_grid_5x5 inst_nms (
     .clk          (clk),
     .resetn       (resetn),
-    .enable       (core_valid),      // Trigger NMS only when core output is valid
+    .enable       (core_valid),
     .image_width  (image_width),
     .image_height (image_height),
     
     .in_is_corner (core_is_corner),
     .in_score     (core_score),
-    .in_x         (current_x),       // Pass raw coordinates directly
-    .in_y         (current_y),
+    .in_x         (current_x),       // Use raw current_x
+    .in_y         (current_y),       // Use raw current_y
 
-    .out_valid    (out_valid),
-    .out_x        (out_x),
-    .out_y        (out_y),
+    .out_valid    (nms_valid),
+    .out_x        (nms_raw_x),       // Receives raw coordinate
+    .out_y        (nms_raw_y),       // Receives raw coordinate
     .out_score    (out_score)
   );
 
-  // The NMS module handles validity and corners internally
-  assign out_is_corner = out_valid;
+  // -------------------------------------------------------------------------
+  // Output Compensation
+  // Apply the -11 and -3 offset ONLY to the final valid NMS output
+  // -------------------------------------------------------------------------
+  assign out_x         = nms_raw_x - 16'd11;
+  assign out_y         = nms_raw_y - 16'd3;
+  assign out_valid     = nms_valid;
+  assign out_is_corner = nms_valid;
 
 endmodule

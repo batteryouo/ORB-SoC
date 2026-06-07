@@ -39,16 +39,13 @@ module nms_grid_5x5 (
       cnt_y  <= '0;
       grid_x <= '0;
     end else if (enable) begin
-      // Row ends (handles non-divisible width)
       if (is_last_x) begin
         cnt_x  <= '0;
         grid_x <= '0;
-        // Column ends (handles non-divisible height)
         if (is_last_y) cnt_y <= '0;
         else if (cnt_y == 3'd4) cnt_y <= '0;
         else cnt_y <= cnt_y + 3'd1;
       end else begin
-        // Normal 5x5 tracking
         if (cnt_x == 3'd4) begin
           cnt_x  <= '0;
           grid_x <= grid_x + 16'd1;
@@ -60,7 +57,7 @@ module nms_grid_5x5 (
   end
 
   // -------------------------------------------------------------------------
-  // 2. Stage 1 -> Stage 2 Pipeline (Align RAM Read)
+  // 2. Stage 1 -> Stage 2 Pipeline
   // -------------------------------------------------------------------------
   logic        stg2_valid;
   logic [15:0] stg2_grid_x;
@@ -104,13 +101,10 @@ module nms_grid_5x5 (
 
   // -------------------------------------------------------------------------
   // 3. Grid History BRAM
-  // Width: 8 (score) + 16 (x) + 16 (y) = 40 bits
-  // Depth: 1024 (Supports image width up to 5120 pixels)
   // -------------------------------------------------------------------------
   logic [39:0] ram [0:1023];
   logic [39:0] ram_rdata;
 
-  // Read logic (Happens during Stage 1)
   always_ff @(posedge clk) begin
     if (enable) begin
       ram_rdata <= ram[grid_x];
@@ -133,32 +127,26 @@ module nms_grid_5x5 (
   logic [15:0] next_run_y;
 
   always_comb begin
-    // Candidate 1: The incoming pixel
     comp_score1 = stg2_in_is_corner ? stg2_in_score : 8'd0;
     comp_x1     = stg2_in_x;
     comp_y1     = stg2_in_y;
 
-    // Candidate 2: The historical maximum
     if (stg2_cnt_x == 3'd0) begin
       if (stg2_cnt_y == 3'd0) begin
-        // First row of a new grid: No history exists
         comp_score2 = 8'd0;
         comp_x2     = 16'd0;
         comp_y2     = 16'd0;
       end else begin
-        // Load history from previous rows of this grid from RAM
         comp_score2 = ram_rdata[39:32];
         comp_x2     = ram_rdata[31:16];
         comp_y2     = ram_rdata[15:0];
       end
     end else begin
-      // Mid-grid row: Use the running register
       comp_score2 = run_score;
       comp_x2     = run_x;
       comp_y2     = run_y;
     end
 
-    // Determine the local maximum
     if (comp_score1 > comp_score2) begin
       next_run_score = comp_score1;
       next_run_x     = comp_x1;
@@ -190,14 +178,11 @@ module nms_grid_5x5 (
       run_x     <= next_run_x;
       run_y     <= next_run_y;
 
-      // Write back to RAM when a row segment of the grid is finished
       if (grid_col_done) begin
         ram[stg2_grid_x] <= {next_run_score, next_run_x, next_run_y};
       end
 
-      // Output feature when the ENTIRE grid block is finished
       if (grid_col_done && grid_row_done) begin
-        // Only trigger valid if the grid contained at least one corner
         out_valid <= (next_run_score > 8'd0);
         out_x     <= next_run_x;
         out_y     <= next_run_y;

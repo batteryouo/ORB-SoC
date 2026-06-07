@@ -22,8 +22,8 @@
       "image_width_const": "",
       "threshold_const": "",
       "axis_dwidth_converter_0": "",
-      "orb_accelerator_top_0": "",
-      "image_height_const": ""
+      "image_height_const": "",
+      "orb_accelerator_top_0": ""
     },
     "interface_ports": {
       "DDR": {
@@ -1191,10 +1191,6 @@
           }
         }
       },
-      "orb_accelerator_top_0": {
-        "vlnv": "xilinx.com:user:orb_accelerator_top:1.0",
-        "xci_name": "system_bd_orb_accelerator_top_0_3"
-      },
       "image_height_const": {
         "vlnv": "xilinx.com:ip:xlconstant:1.1",
         "xci_name": "system_bd_image_width_const_0",
@@ -1206,6 +1202,10 @@
             "value": "16"
           }
         }
+      },
+      "orb_accelerator_top_0": {
+        "vlnv": "xilinx.com:user:orb_accelerator_top:1.0",
+        "xci_name": "system_bd_orb_accelerator_top_0_3"
       }
     },
     "interface_nets": {
