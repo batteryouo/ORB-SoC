@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-//Date        : Sun Jun  7 04:50:40 2026
+//Date        : Sun Jun  7 20:49:36 2026
 //Host        : battery running 64-bit major release  (build 9200)
 //Command     : generate_target system_bd.bd
 //Design      : system_bd
@@ -420,6 +420,7 @@ module system_bd
   wire [15:0]image_width_const_dout;
   wire orb_accelerator_top_0_irq_done;
   wire [31:0]orb_accelerator_top_0_m_axis_TDATA;
+  wire [3:0]orb_accelerator_top_0_m_axis_TKEEP;
   wire orb_accelerator_top_0_m_axis_TLAST;
   wire orb_accelerator_top_0_m_axis_TREADY;
   wire orb_accelerator_top_0_m_axis_TVALID;
@@ -562,7 +563,7 @@ module system_bd
         .s_axi_lite_wready(ps7_0_axi_periph_M00_AXI_WREADY),
         .s_axi_lite_wvalid(ps7_0_axi_periph_M00_AXI_WVALID),
         .s_axis_s2mm_tdata(orb_accelerator_top_0_m_axis_TDATA),
-        .s_axis_s2mm_tkeep({1'b1,1'b1,1'b1,1'b1}),
+        .s_axis_s2mm_tkeep(orb_accelerator_top_0_m_axis_TKEEP),
         .s_axis_s2mm_tlast(orb_accelerator_top_0_m_axis_TLAST),
         .s_axis_s2mm_tready(orb_accelerator_top_0_m_axis_TREADY),
         .s_axis_s2mm_tvalid(orb_accelerator_top_0_m_axis_TVALID));
@@ -649,11 +650,12 @@ module system_bd
         .s_axis_tvalid(axi_dma_0_M_AXIS_MM2S_TVALID));
   system_bd_xlconstant_0_1 image_width_const
        (.dout(image_width_const_dout));
-  system_bd_orb_accelerator_top_0_1 orb_accelerator_top_0
+  system_bd_orb_accelerator_top_0_3 orb_accelerator_top_0
        (.clk(processing_system7_0_FCLK_CLK0),
         .image_width(image_width_const_dout),
         .irq_done(orb_accelerator_top_0_irq_done),
         .m_axis_tdata(orb_accelerator_top_0_m_axis_TDATA),
+        .m_axis_tkeep(orb_accelerator_top_0_m_axis_TKEEP),
         .m_axis_tlast(orb_accelerator_top_0_m_axis_TLAST),
         .m_axis_tready(orb_accelerator_top_0_m_axis_TREADY),
         .m_axis_tvalid(orb_accelerator_top_0_m_axis_TVALID),

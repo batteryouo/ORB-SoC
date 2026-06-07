@@ -3,8 +3,8 @@
 -- Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
 -- Date        : Sun Jun  7 03:46:22 2026
 -- Host        : battery running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode funcsim
---               e:/resources/Course/FPGA/ORB-SoC/vivado_prj/orb_system_test/orb_system_test.srcs/sources_1/bd/system_bd/ip/system_bd_axis_dwidth_converter_0_0/system_bd_axis_dwidth_converter_0_0_sim_netlist.vhdl
+-- Command     : write_vhdl -force -mode funcsim -rename_top system_bd_axis_dwidth_converter_0_0 -prefix
+--               system_bd_axis_dwidth_converter_0_0_ system_bd_axis_dwidth_converter_0_0_sim_netlist.vhdl
 -- Design      : system_bd_axis_dwidth_converter_0_0
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -29,8 +29,6 @@ entity system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axisc_d
     m_axis_tready : in STD_LOGIC;
     s_axis_tdata : in STD_LOGIC_VECTOR ( 31 downto 0 )
   );
-  attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axisc_downsizer : entity is "axis_dwidth_converter_v1_1_18_axisc_downsizer";
 end system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axisc_downsizer;
 
 architecture STRUCTURE of system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axisc_downsizer is
@@ -1158,8 +1156,6 @@ entity system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axis_dw
   attribute G_TASK_SEVERITY_INFO of system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axis_dwidth_converter : entity is 0;
   attribute G_TASK_SEVERITY_WARNING : integer;
   attribute G_TASK_SEVERITY_WARNING of system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axis_dwidth_converter : entity is 1;
-  attribute ORIG_REF_NAME : string;
-  attribute ORIG_REF_NAME of system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axis_dwidth_converter : entity is "axis_dwidth_converter_v1_1_18_axis_dwidth_converter";
   attribute P_AXIS_SIGNAL_SET : string;
   attribute P_AXIS_SIGNAL_SET of system_bd_axis_dwidth_converter_0_0_axis_dwidth_converter_v1_1_18_axis_dwidth_converter : entity is "32'b00000000000000000000000000011011";
   attribute P_D1_REG_CONFIG : integer;

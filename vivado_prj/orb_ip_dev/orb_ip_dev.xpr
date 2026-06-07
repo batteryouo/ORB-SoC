@@ -70,46 +70,29 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/fast/fast9_core.sv">
+      <File Path="$PPRDIR/../../rtl/fast/fast9_core.sv">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../rtl/fast/fast9_core.sv"/>
-          <Attr Name="ImportTime" Val="1780760162"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/fast/fast_detector_top.sv">
+      <File Path="$PPRDIR/../../rtl/fast/fast_detector_top.sv">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../rtl/fast/fast_detector_top.sv"/>
-          <Attr Name="ImportTime" Val="1780758986"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/fast/fast_nms_filter.sv">
+      <File Path="$PPRDIR/../../rtl/fast/fast_window_dynamic.sv">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../rtl/fast/fast_nms_filter.sv"/>
-          <Attr Name="ImportTime" Val="1780777817"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/fast/fast_window_dynamic.sv">
+      <File Path="$PPRDIR/../../rtl/orb_accelerator_top.sv">
         <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../rtl/fast/fast_window_dynamic.sv"/>
-          <Attr Name="ImportTime" Val="1780760327"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/imports/rtl/orb_accelerator_top.sv">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../../rtl/orb_accelerator_top.sv"/>
-          <Attr Name="ImportTime" Val="1780766115"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>

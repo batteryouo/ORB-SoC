@@ -1,5 +1,5 @@
 // orb_accelerator_top.sv
-// Top-level AXI-Stream Wrapper with Grid-based NMS
+// Top-level AXI-Stream Wrapper with Grid-based NMS and Pipelined EOF
 
 module orb_accelerator_top (
   input  logic    clk,
@@ -8,34 +8,25 @@ module orb_accelerator_top (
   input  logic [15:0] image_width,
   input  logic [7:0]  threshold,
 
-  // AXI-Stream Slave (Image In from DMA via Data Width Converter)
-  // NOTE: This must receive 8-bit data now! 
-  // The Data Width Converter IP outside this module handles the 32-bit to 8-bit conversion.
   input  logic [7:0]  s_axis_tdata,
   input  logic    s_axis_tvalid,
   output logic    s_axis_tready,
   input  logic    s_axis_tlast,
 
-  // AXI-Stream Master (Keypoint Out to DMA)
   output logic [31:0] m_axis_tdata,
   output logic    m_axis_tvalid,
   input  logic    m_axis_tready,
   output logic    m_axis_tlast,
 
-  // Interrupt
   output logic    irq_done
 );
 
-  // =========================================================================
   // 1. FAST Detector
-  // =========================================================================
   logic    fast_is_corner;
   logic [15:0] fast_x;
   logic [15:0] fast_y;
   logic [7:0]  fast_score;
   logic    fast_valid;
-  
-  // Internal ready signal from NMS to control the image stream
   logic    nms_ready; 
 
   fast_detector_top inst_fast (
@@ -44,7 +35,7 @@ module orb_accelerator_top (
     .image_width   (image_width),
     .threshold   (threshold),
     .s_axis_tdata  (s_axis_tdata),
-    .s_axis_tvalid (s_axis_tvalid & nms_ready), // Stall FAST if NMS is flushing
+    .s_axis_tvalid (s_axis_tvalid & nms_ready),
     .out_is_corner (fast_is_corner),
     .out_x     (fast_x),
     .out_y     (fast_y),
@@ -52,24 +43,44 @@ module orb_accelerator_top (
     .out_valid   (fast_valid)
   );
 
-  // Control the upstream DMA: Only ready if both NMS and our local packetizer are ready
   assign s_axis_tready = nms_ready; 
 
-  // Detect EOF from the incoming stream (Delayed by pipeline length roughly)
-  // For a robust design, EOF should be pipelined with the pixels. 
-  // For now, we capture tlast directly.
-  logic fast_eof;
-  assign fast_eof = (s_axis_tvalid && s_axis_tready && s_axis_tlast);
+  // Pipelined EOF Detection
+  logic    eof_active;
+  logic [15:0] eof_delay_counter;
+  logic    fast_eof;
 
-  // =========================================================================
+  always_ff @(posedge clk or negedge resetn) begin
+    if (!resetn) begin
+      eof_active    <= 1'b0;
+      eof_delay_counter <= 16'd0;
+      fast_eof      <= 1'b0;
+    end else begin
+      fast_eof <= 1'b0; 
+      
+      if (s_axis_tvalid && s_axis_tready && s_axis_tlast) begin
+        eof_active <= 1'b1;
+        // Delay roughly covers the line buffers + pipeline depth
+        eof_delay_counter <= (image_width * 16'd3) + 16'd10;
+      end 
+      else if (eof_active && s_axis_tready) begin
+        if (eof_delay_counter > 0) begin
+          eof_delay_counter <= eof_delay_counter - 16'd1;
+        end else begin
+          fast_eof   <= 1'b1; 
+          eof_active <= 1'b0;
+        end
+      end
+    end
+  end
+
   // 2. Grid-based NMS Filter
-  // =========================================================================
   logic    nms_out_valid;
   logic [15:0] nms_out_x;
   logic [15:0] nms_out_y;
   logic [7:0]  nms_out_score;
   logic    nms_out_eof;
-  logic    pkt_ready; // Ready signal from the Packetizer below
+  logic    pkt_ready; 
 
   fast_nms_filter #(
     .GRID_SIZE_LOG2(4),
@@ -77,7 +88,7 @@ module orb_accelerator_top (
   ) inst_nms (
     .clk    (clk),
     .resetn   (resetn),
-    .in_valid   (fast_valid && fast_is_corner), // Only send actual corners to NMS
+    .in_valid   (fast_valid), 
     .in_x     (fast_x),
     .in_y     (fast_y),
     .in_score   (fast_score),
@@ -91,9 +102,7 @@ module orb_accelerator_top (
     .out_ready  (pkt_ready)
   );
 
-  // =========================================================================
-  // 3. AXI-Stream Packetizer State Machine (11 Words per Keypoint)
-  // =========================================================================
+  // 3. AXI-Stream Packetizer State Machine
   typedef enum logic [1:0] {
     IDLE,
     SEND_KP,
@@ -142,9 +151,7 @@ module orb_accelerator_top (
     endcase
   end
 
-  // =========================================================================
   // 4. Output Assignments & Dummy Padding
-  // =========================================================================
   always_comb begin
     m_axis_tvalid = 1'b0;
     m_axis_tdata  = 32'd0;

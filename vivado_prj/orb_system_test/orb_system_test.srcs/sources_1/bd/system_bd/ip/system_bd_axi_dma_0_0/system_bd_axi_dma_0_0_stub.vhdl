@@ -1,10 +1,10 @@
 -- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
--- Date        : Sun Jun  7 03:47:41 2026
+-- Date        : Sun Jun  7 03:47:40 2026
 -- Host        : battery running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub
---               E:/resources/Course/FPGA/ORB-SoC/vivado_prj/orb_system_test/orb_system_test.srcs/sources_1/bd/system_bd/ip/system_bd_axi_dma_0_0/system_bd_axi_dma_0_0_stub.vhdl
+-- Command     : write_vhdl -force -mode synth_stub -rename_top system_bd_axi_dma_0_0 -prefix
+--               system_bd_axi_dma_0_0_ system_bd_axi_dma_0_0_stub.vhdl
 -- Design      : system_bd_axi_dma_0_0
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7z020clg484-1
