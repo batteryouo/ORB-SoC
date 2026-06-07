@@ -1,12 +1,9 @@
-// fast_detector_top.sv
-// FIXED: X coordinate pipeline offset corrected (+4 ? 0)
-// FIXED: Score now uses actual FAST response instead of center pixel value
-
 module fast_detector_top (
   input  logic        clk,
   input  logic        resetn,
   
   input  logic [15:0] image_width,
+  input  logic [15:0] image_height, // ADDED: Required for NMS boundary check
   input  logic [7:0]  threshold,
 
   input  logic [7:0]  s_axis_tdata,
@@ -48,30 +45,9 @@ module fast_detector_top (
     .out_valid    (core_valid)
   );
 
-  // =========================================================================
-  // Coordinate Tracking
-  //
-  // Total pipeline latency from input pixel to core output = 4 cycles:
-  //   +1  window_7x7 registered shift
-  //   +1  window_valid <= s_axis_tvalid (1-cycle delay)
-  //   +1  fast9_core stage 1
-  //   +1  fast9_core stage 2
-  //
-  // Additionally, the Xilinx line_buffer_dynamic IP has an internal output
-  // register, adding +1 CE-cycle per line buffer. From input row [6] to
-  // center row [3] there are 3 line buffers, so the center column is shifted
-  // 3 extra columns behind the expected position.
-  //
-  // Window center column offset:        -3  (col [3] in a 7-wide window)
-  // Line buffer register latency:       -3  (3 LBs × 1 cycle each)
-  // Pipeline-vs-tracking mismatch:      -1  (4 pipeline stages, 2 tracking)
-  //
-  // Total X compensation = 3 + 3 + 1 = 7
-  //
-  // Tracking pipeline: 2 stages matching the 2-stage fast9_core,
-  // with the remaining offset absorbed into center_x.
-  // =========================================================================
-
+  // -------------------------------------------------------------------------
+  // Base Coordinate Tracking (No compensation needed!)
+  // -------------------------------------------------------------------------
   logic [15:0] current_x, current_y;
 
   always_ff @(posedge clk or negedge resetn) begin
@@ -88,38 +64,28 @@ module fast_detector_top (
     end
   end
 
-  // FIXED: compensation increased from -3 to -7
-  logic [15:0] center_x, center_y;
-  assign center_x = current_x - 16'd7;
-  assign center_y = current_y - 16'd3;
+  // -------------------------------------------------------------------------
+  // Grid 5x5 NMS Instantiation
+  // -------------------------------------------------------------------------
+  nms_grid_5x5 inst_nms (
+    .clk          (clk),
+    .resetn       (resetn),
+    .enable       (core_valid),      // Trigger NMS only when core output is valid
+    .image_width  (image_width),
+    .image_height (image_height),
+    
+    .in_is_corner (core_is_corner),
+    .in_score     (core_score),
+    .in_x         (current_x),       // Pass raw coordinates directly
+    .in_y         (current_y),
 
-  logic [15:0] tracked_x_stg1, tracked_y_stg1;
-  logic [15:0] tracked_x_stg2, tracked_y_stg2;
+    .out_valid    (out_valid),
+    .out_x        (out_x),
+    .out_y        (out_y),
+    .out_score    (out_score)
+  );
 
-  always_ff @(posedge clk or negedge resetn) begin
-    if (!resetn) begin
-      tracked_x_stg1 <= 16'd0;
-      tracked_y_stg1 <= 16'd0;
-      tracked_x_stg2 <= 16'd0;
-      tracked_y_stg2 <= 16'd0;
-    end else if (s_axis_tvalid) begin
-      tracked_x_stg1 <= center_x;
-      tracked_y_stg1 <= center_y;
-      tracked_x_stg2 <= tracked_x_stg1;
-      tracked_y_stg2 <= tracked_y_stg1;
-    end
-  end
-
-  // Border mask: only output corners within valid image region
-  // Adjusted to account for the larger compensation
-  logic border_mask;
-  assign border_mask = (tracked_x_stg2 >= 16'd3 && tracked_y_stg2 >= 16'd3 && 
-                        tracked_x_stg2 < (image_width - 16'd3));
-
-  assign out_is_corner = core_is_corner & border_mask;
-  assign out_score     = core_score;
-  assign out_x         = tracked_x_stg2;
-  assign out_y         = tracked_y_stg2;
-  assign out_valid     = core_valid & border_mask & core_is_corner;
+  // The NMS module handles validity and corners internally
+  assign out_is_corner = out_valid;
 
 endmodule

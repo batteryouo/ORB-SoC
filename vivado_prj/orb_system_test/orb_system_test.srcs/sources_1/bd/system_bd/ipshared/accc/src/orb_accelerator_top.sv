@@ -1,11 +1,12 @@
 // orb_accelerator_top.sv
-// Top-level AXI-Stream Wrapper (Standalone FAST-9, No NMS)
+// Top-level AXI-Stream Wrapper (FAST-9 + Grid 5x5 NMS)
 
 module orb_accelerator_top (
   input  logic        clk,
   input  logic        resetn,
 
   input  logic [15:0] image_width,
+  input  logic [15:0] image_height, // ADDED: Required for NMS boundary check
   input  logic [7:0]  threshold,
 
   input  logic [7:0]  s_axis_tdata,
@@ -14,7 +15,7 @@ module orb_accelerator_top (
   input  logic        s_axis_tlast,
 
   output logic [31:0] m_axis_tdata,
-  output logic [3:0]  m_axis_tkeep, // <-- THIS WAS MISSING IN YOUR FILE!
+  output logic [3:0]  m_axis_tkeep, 
   output logic        m_axis_tvalid,
   input  logic        m_axis_tready,
   output logic        m_axis_tlast,
@@ -25,7 +26,7 @@ module orb_accelerator_top (
   // Tie TKEEP to all 1s (all 4 bytes are valid in every 32-bit word)
   assign m_axis_tkeep = 4'hF;
 
-  // FAST Detector Signals
+  // FAST/NMS Detector Signals
   logic        fast_is_corner;
   logic [15:0] fast_x;
   logic [15:0] fast_y;
@@ -52,7 +53,8 @@ module orb_accelerator_top (
       // Trigger flush when TLAST is received
       if (s_axis_tvalid && s_axis_tready && s_axis_tlast) begin
         flush_active  <= 1'b1;
-        flush_counter <= (image_width * 16'd3) + 16'd10; 
+        // MODIFIED: Increased flush duration to push data out of 5x5 Grid NMS
+        flush_counter <= (image_width * 16'd5) + 16'd20; 
       end 
       // Process flush only when packetizer is ready
       else if (flush_active && pkt_ready) begin
@@ -74,6 +76,7 @@ module orb_accelerator_top (
     .clk           (clk),
     .resetn        (resetn),
     .image_width   (image_width),
+    .image_height  (image_height), // ADDED: Pass height down to NMS
     .threshold     (threshold),
     .s_axis_tdata  (int_tdata),
     .s_axis_tvalid (int_tvalid & pkt_ready), 

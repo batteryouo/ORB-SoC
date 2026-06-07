@@ -188,6 +188,13 @@ proc create_root_design { parentCell } {
    CONFIG.S_TDATA_NUM_BYTES {4} \
  ] $axis_dwidth_converter_0
 
+  # Create instance: image_height_const, and set properties
+  set image_height_const [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 image_height_const ]
+  set_property -dict [ list \
+   CONFIG.CONST_VAL {60} \
+   CONFIG.CONST_WIDTH {16} \
+ ] $image_height_const
+
   # Create instance: image_width_const, and set properties
   set image_width_const [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 image_width_const ]
   set_property -dict [ list \
@@ -633,6 +640,7 @@ proc create_root_design { parentCell } {
   # Create port connections
   connect_bd_net -net axi_dma_0_mm2s_introut [get_bd_pins axi_dma_0/mm2s_introut] [get_bd_pins xlconcat_0/In0]
   connect_bd_net -net axi_dma_0_s2mm_introut [get_bd_pins axi_dma_0/s2mm_introut] [get_bd_pins xlconcat_0/In1]
+  connect_bd_net -net image_height_const_dout [get_bd_pins image_height_const/dout] [get_bd_pins orb_accelerator_top_0/image_height]
   connect_bd_net -net image_width_const_dout [get_bd_pins image_width_const/dout] [get_bd_pins orb_accelerator_top_0/image_width]
   connect_bd_net -net orb_accelerator_top_0_irq_done [get_bd_pins orb_accelerator_top_0/irq_done] [get_bd_pins xlconcat_0/In2]
   connect_bd_net -net processing_system7_0_FCLK_CLK0 [get_bd_pins axi_dma_0/m_axi_mm2s_aclk] [get_bd_pins axi_dma_0/m_axi_s2mm_aclk] [get_bd_pins axi_dma_0/s_axi_lite_aclk] [get_bd_pins axi_smc/aclk] [get_bd_pins axis_dwidth_converter_0/aclk] [get_bd_pins orb_accelerator_top_0/clk] [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK] [get_bd_pins processing_system7_0/S_AXI_HP0_ACLK] [get_bd_pins ps7_0_axi_periph/ACLK] [get_bd_pins ps7_0_axi_periph/M00_ACLK] [get_bd_pins ps7_0_axi_periph/S00_ACLK] [get_bd_pins rst_ps7_0_100M/slowest_sync_clk]

@@ -47,7 +47,7 @@ int main() {
     if (x >= 20 && x < 30 && y >= 20 && y < 30) {
       img_ptr[i] = 255; // White square
     } else {
-      img_ptr[i] = 0;   // Black background
+      img_ptr[i] = 220;   // Black background
     }
   }
   memset((void*)RESULT_BUF_ADDR, 0, 1024 * 1024);

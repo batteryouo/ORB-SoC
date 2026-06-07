@@ -2,39 +2,41 @@
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0.19  2019-03-26 bk=1.5019 VDI=41 GEI=35 GUI=JA:9.0 non-TLS
 #  -string -flagsOSRD
-preplace port DDR -pg 1 -lvl 5 -x 1690 -y 410 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -lvl 5 -x 1690 -y 540 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 4 -x 1400 -y 480 -defaultsOSRD
-preplace inst axi_dma_0 -pg 1 -lvl 3 -x 950 -y 490 -defaultsOSRD
-preplace inst axi_smc -pg 1 -lvl 3 -x 950 -y 260 -defaultsOSRD
-preplace inst rst_ps7_0_100M -pg 1 -lvl 4 -x 1400 -y 240 -defaultsOSRD
-preplace inst ps7_0_axi_periph -pg 1 -lvl 4 -x 1400 -y 760 -defaultsOSRD
-preplace inst xlconcat_0 -pg 1 -lvl 3 -x 950 -y 720 -defaultsOSRD
-preplace inst image_width_const -pg 1 -lvl 1 -x 350 -y 500 -defaultsOSRD
-preplace inst threshold_const -pg 1 -lvl 1 -x 350 -y 600 -defaultsOSRD
-preplace inst axis_dwidth_converter_0 -pg 1 -lvl 2 -x 610 -y 720 -defaultsOSRD
-preplace inst orb_accelerator_top_0 -pg 1 -lvl 2 -x 610 -y 510 -defaultsOSRD
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 3 2 1170J 340 1630J
-preplace netloc axi_dma_0_mm2s_introut 1 2 2 780 640 1130
-preplace netloc axi_dma_0_s2mm_introut 1 2 2 780 800 1120
-preplace netloc xlconcat_0_dout 1 3 1 1150 520n
-preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 4 460 630 770 630 1140 630 1660
-preplace netloc processing_system7_0_FCLK_CLK0 1 1 4 450 620 760 350 1160 880 1650
-preplace netloc image_width_const_dout 1 1 1 440 500n
-preplace netloc threshold_const_dout 1 1 1 440 550n
-preplace netloc orb_accelerator_top_0_irq_done 1 2 1 750 520n
-preplace netloc axi_dma_0_M_AXIS_MM2S 1 1 3 480 610 NJ 610 1140
-preplace netloc processing_system7_0_DDR 1 4 1 1670 400n
-preplace netloc ps7_0_axi_periph_M00_AXI 1 2 3 780 620 N 620 1630
-preplace netloc processing_system7_0_FIXED_IO 1 4 1 1670 420n
-preplace netloc processing_system7_0_M_AXI_GP0 1 3 2 1170J 640 1640J
-preplace netloc axi_smc_M00_AXI 1 3 1 1140 260n
-preplace netloc axi_dma_0_M_AXI_S2MM 1 2 2 780 170 1120
-preplace netloc axi_dma_0_M_AXI_MM2S 1 2 2 770 160 1130
-preplace netloc axis_dwidth_converter_0_M_AXIS 1 1 2 470 640 740
-preplace netloc orb_accelerator_top_0_m_axis 1 2 1 750 460n
-levelinfo -pg 1 -420 350 610 950 1400 1690
-pagesize -pg 1 -db -bbox -sgen -420 -120 1810 990
+preplace port DDR -pg 1 -lvl 5 -x 1830 -y 410 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 5 -x 1830 -y 540 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 4 -x 1540 -y 480 -defaultsOSRD
+preplace inst axi_dma_0 -pg 1 -lvl 3 -x 1090 -y 490 -defaultsOSRD
+preplace inst axi_smc -pg 1 -lvl 3 -x 1090 -y 260 -defaultsOSRD
+preplace inst rst_ps7_0_100M -pg 1 -lvl 4 -x 1540 -y 240 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 4 -x 1540 -y 760 -defaultsOSRD
+preplace inst xlconcat_0 -pg 1 -lvl 3 -x 1090 -y 720 -defaultsOSRD
+preplace inst image_width_const -pg 1 -lvl 1 -x 290 -y 470 -defaultsOSRD
+preplace inst threshold_const -pg 1 -lvl 1 -x 290 -y 680 -defaultsOSRD
+preplace inst axis_dwidth_converter_0 -pg 1 -lvl 2 -x 720 -y 720 -defaultsOSRD
+preplace inst orb_accelerator_top_0 -pg 1 -lvl 2 -x 720 -y 390 -defaultsOSRD
+preplace inst image_height_const -pg 1 -lvl 1 -x 290 -y 570 -defaultsOSRD
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 3 2 1310J 340 1780J
+preplace netloc axi_dma_0_mm2s_introut 1 2 2 910 620 1270
+preplace netloc axi_dma_0_s2mm_introut 1 2 2 920 630 1260
+preplace netloc xlconcat_0_dout 1 3 1 1290 520n
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 4 430 270 870 640 1270 640 1800
+preplace netloc processing_system7_0_FCLK_CLK0 1 1 4 420 260 890 350 1300 620 1770
+preplace netloc image_width_const_dout 1 1 1 390 400n
+preplace netloc threshold_const_dout 1 1 1 410 440n
+preplace netloc orb_accelerator_top_0_irq_done 1 2 1 860 400n
+preplace netloc image_height_const_dout 1 1 1 400 420n
+preplace netloc orb_accelerator_top_0_m_axis 1 2 1 880 380n
+preplace netloc axi_dma_0_M_AXI_MM2S 1 2 2 870 160 1280
+preplace netloc axi_smc_M00_AXI 1 3 1 1290 260n
+preplace netloc processing_system7_0_M_AXI_GP0 1 3 2 1310J 630 1790J
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 3 900 880 N 880 1770
+preplace netloc processing_system7_0_FIXED_IO 1 4 1 1810 420n
+preplace netloc axi_dma_0_M_AXI_S2MM 1 2 2 890 170 1260
+preplace netloc processing_system7_0_DDR 1 4 1 1810 400n
+preplace netloc axi_dma_0_M_AXIS_MM2S 1 1 3 440 610 NJ 610 1280
+preplace netloc axis_dwidth_converter_0_M_AXIS 1 1 2 440 280 850
+levelinfo -pg 1 -420 290 720 1090 1540 1830
+pagesize -pg 1 -db -bbox -sgen -420 -120 1950 990
 "
 }
 {

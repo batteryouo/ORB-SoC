@@ -59,6 +59,7 @@ module system_bd_orb_accelerator_top_0_3 (
   clk,
   resetn,
   image_width,
+  image_height,
   threshold,
   s_axis_tdata,
   s_axis_tvalid,
@@ -79,6 +80,7 @@ input wire clk;
 (* X_INTERFACE_INFO = "xilinx.com:signal:reset:1.0 resetn RST" *)
 input wire resetn;
 input wire [15 : 0] image_width;
+input wire [15 : 0] image_height;
 input wire [7 : 0] threshold;
 (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 s_axis TDATA" *)
 input wire [7 : 0] s_axis_tdata;
@@ -106,6 +108,7 @@ output wire irq_done;
     .clk(clk),
     .resetn(resetn),
     .image_width(image_width),
+    .image_height(image_height),
     .threshold(threshold),
     .s_axis_tdata(s_axis_tdata),
     .s_axis_tvalid(s_axis_tvalid),

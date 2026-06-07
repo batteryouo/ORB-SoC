@@ -46,24 +46,24 @@
 // 
 // DO NOT MODIFY THIS FILE.
 
-// IP VLNV: xilinx.com:ip:c_shift_ram:12.0
-// IP Revision: 13
 
-// The following must be inserted into your Verilog file for this
-// core to be instantiated. Change the instance name and port connections
-// (in parentheses) to your own signal names.
+// IP VLNV: xilinx.com:ip:xlconstant:1.1
+// IP Revision: 6
 
-//----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG
-line_buffer_dynamic your_instance_name (
-  .A(A),      // input wire [9 : 0] A
-  .D(D),      // input wire [7 : 0] D
-  .CLK(CLK),  // input wire CLK
-  .CE(CE),    // input wire CE
-  .Q(Q)      // output wire [7 : 0] Q
+(* X_CORE_INFO = "xlconstant_v1_1_6_xlconstant,Vivado 2019.1" *)
+(* CHECK_LICENSE_TYPE = "system_bd_image_width_const_0,xlconstant_v1_1_6_xlconstant,{}" *)
+(* CORE_GENERATION_INFO = "system_bd_image_width_const_0,xlconstant_v1_1_6_xlconstant,{x_ipProduct=Vivado 2019.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=xlconstant,x_ipVersion=1.1,x_ipCoreRevision=6,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,CONST_WIDTH=16,CONST_VAL=0x003C}" *)
+(* DowngradeIPIdentifiedWarnings = "yes" *)
+module system_bd_image_width_const_0 (
+  dout
 );
-// INST_TAG_END ------ End INSTANTIATION Template ---------
 
-// You must compile the wrapper file line_buffer_dynamic.v when simulating
-// the core, line_buffer_dynamic. When compiling the wrapper file, be sure to
-// reference the Verilog simulation library.
+output wire [15 : 0] dout;
 
+  xlconstant_v1_1_6_xlconstant #(
+    .CONST_WIDTH(16),
+    .CONST_VAL('H003C)
+  ) inst (
+    .dout(dout)
+  );
+endmodule
