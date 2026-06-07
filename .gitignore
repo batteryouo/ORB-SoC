@@ -18,6 +18,7 @@
 *.pb
 *.wdb
 *.vcd
+*.a
 
 # Bitstreams and Binaries (Ignore general ones, unless specifically versioned)
 *.bit
