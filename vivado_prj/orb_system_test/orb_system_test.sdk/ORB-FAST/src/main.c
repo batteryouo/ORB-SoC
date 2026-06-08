@@ -91,7 +91,7 @@ int main() {
     kp_count++;
     raw_ptr += 11; // Skip 11 words (44 bytes) to next keypoint
 
-    if (kp_count > 1000) {
+    if (kp_count > 200) {
       xil_printf("Error: Too many keypoints or missing EOF!\r\n");
       break;
     }
