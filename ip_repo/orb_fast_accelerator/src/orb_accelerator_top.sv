@@ -6,7 +6,7 @@ module orb_accelerator_top (
   input  logic        resetn,
 
   input  logic [15:0] image_width,
-  input  logic [15:0] image_height, // ADDED: Required for NMS boundary check
+  input  logic [15:0] image_height,
   input  logic [7:0]  threshold,
 
   input  logic [7:0]  s_axis_tdata,
@@ -23,24 +23,19 @@ module orb_accelerator_top (
   output logic        irq_done
 );
 
-  // Tie TKEEP to all 1s (all 4 bytes are valid in every 32-bit word)
   assign m_axis_tkeep = 4'hF;
 
-  // FAST/NMS Detector Signals
   logic        fast_is_corner;
   logic [15:0] fast_x;
   logic [15:0] fast_y;
   logic [7:0]  fast_score;
   logic        fast_valid;
 
-  // Pipeline Flush Signals
   logic        flush_active;
   logic [15:0] flush_counter;
   logic        fast_eof;
   logic        int_tvalid;
   logic [7:0]  int_tdata;
-
-  // State Machine Ready Signal
   logic        pkt_ready;
 
   always_ff @(posedge clk or negedge resetn) begin
@@ -50,13 +45,10 @@ module orb_accelerator_top (
       fast_eof      <= 1'b0;
     end else begin
       fast_eof <= 1'b0;
-      // Trigger flush when TLAST is received
       if (s_axis_tvalid && s_axis_tready && s_axis_tlast) begin
         flush_active  <= 1'b1;
-        // MODIFIED: Increased flush duration to push data out of 5x5 Grid NMS
         flush_counter <= (image_width * 16'd5) + 16'd20; 
       end 
-      // Process flush only when packetizer is ready
       else if (flush_active && pkt_ready) begin
         if (flush_counter > 0) begin
           flush_counter <= flush_counter - 16'd1;
@@ -76,7 +68,7 @@ module orb_accelerator_top (
     .clk           (clk),
     .resetn        (resetn),
     .image_width   (image_width),
-    .image_height  (image_height), // ADDED: Pass height down to NMS
+    .image_height  (image_height),
     .threshold     (threshold),
     .s_axis_tdata  (int_tdata),
     .s_axis_tvalid (int_tvalid & pkt_ready), 
@@ -155,8 +147,8 @@ module orb_accelerator_top (
       m_axis_tvalid = 1'b1;
       case (word_counter)
         4'd0: m_axis_tdata = {hold_y, hold_x};
-        4'd1: m_axis_tdata = 32'd0;                   // angle/octave/padding = 0
-        4'd2: m_axis_tdata = {24'd0, hold_score};      // response = score
+        4'd1: m_axis_tdata = 32'd0;                  
+        4'd2: m_axis_tdata = {24'd0, hold_score};    
         default: m_axis_tdata = 32'd0;
       endcase
     end 

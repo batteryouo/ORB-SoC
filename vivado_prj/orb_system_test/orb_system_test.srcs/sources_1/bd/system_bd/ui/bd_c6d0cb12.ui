@@ -14,27 +14,27 @@ preplace inst image_width_const -pg 1 -lvl 1 -x 290 -y 470 -defaultsOSRD
 preplace inst threshold_const -pg 1 -lvl 1 -x 290 -y 680 -defaultsOSRD
 preplace inst axis_dwidth_converter_0 -pg 1 -lvl 2 -x 720 -y 720 -defaultsOSRD
 preplace inst image_height_const -pg 1 -lvl 1 -x 290 -y 570 -defaultsOSRD
-preplace inst orb_accelerator_top_0 -pg 1 -lvl 2 -x 720 -y 390 -defaultsOSRD
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 3 2 1310J 340 1780J
-preplace netloc axi_dma_0_mm2s_introut 1 2 2 910 620 1270
-preplace netloc axi_dma_0_s2mm_introut 1 2 2 920 630 1260
+preplace inst orb_accelerator_top_0 -pg 1 -lvl 2 -x 720 -y 500 -defaultsOSRD
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 3 2 1310J 340 1770J
+preplace netloc axi_dma_0_mm2s_introut 1 2 2 880 640 1270
+preplace netloc axi_dma_0_s2mm_introut 1 2 2 880 800 1260
 preplace netloc xlconcat_0_dout 1 3 1 1290 520n
-preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 4 430 270 870 640 1270 640 1800
-preplace netloc processing_system7_0_FCLK_CLK0 1 1 4 420 260 890 350 1300 620 1770
-preplace netloc image_width_const_dout 1 1 1 390 400n
-preplace netloc threshold_const_dout 1 1 1 410 440n
-preplace netloc orb_accelerator_top_0_irq_done 1 2 1 860 400n
-preplace netloc image_height_const_dout 1 1 1 400 420n
-preplace netloc orb_accelerator_top_0_m_axis 1 2 1 880 380n
-preplace netloc axi_dma_0_M_AXI_MM2S 1 2 2 870 160 1280
-preplace netloc axi_smc_M00_AXI 1 3 1 1290 260n
-preplace netloc processing_system7_0_M_AXI_GP0 1 3 2 1310J 630 1790J
-preplace netloc ps7_0_axi_periph_M00_AXI 1 2 3 900 880 N 880 1770
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 4 420 630 870 630 1280 630 1800
+preplace netloc processing_system7_0_FCLK_CLK0 1 1 4 410 620 850 350 1300 880 1790
+preplace netloc threshold_const_dout 1 1 1 400 550n
+preplace netloc image_height_const_dout 1 1 1 390 530n
+preplace netloc image_width_const_dout 1 1 1 390 470n
+preplace netloc orb_accelerator_top_0_irq_done 1 2 1 860 510n
 preplace netloc processing_system7_0_FIXED_IO 1 4 1 1810 420n
-preplace netloc axi_dma_0_M_AXI_S2MM 1 2 2 890 170 1260
+preplace netloc axi_smc_M00_AXI 1 3 1 1280 260n
+preplace netloc axi_dma_0_M_AXI_MM2S 1 2 2 850 160 1270
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 3 880 620 N 620 1770
+preplace netloc processing_system7_0_M_AXI_GP0 1 3 2 1310J 640 1780J
 preplace netloc processing_system7_0_DDR 1 4 1 1810 400n
+preplace netloc axi_dma_0_M_AXI_S2MM 1 2 2 880 170 1260
 preplace netloc axi_dma_0_M_AXIS_MM2S 1 1 3 440 610 NJ 610 1280
-preplace netloc axis_dwidth_converter_0_M_AXIS 1 1 2 440 280 850
+preplace netloc axis_dwidth_converter_0_M_AXIS 1 1 2 430 640 850
+preplace netloc orb_accelerator_top_0_m_axis 1 2 1 860 460n
 levelinfo -pg 1 -420 290 720 1090 1540 1830
 pagesize -pg 1 -db -bbox -sgen -420 -120 1950 990
 "
